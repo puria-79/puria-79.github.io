@@ -1,0 +1,62 @@
+name: Update GitHub Pages Index
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 6"
+
+permissions:
+  contents: write
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    env:
+      OWNER: ${{ github.repository_owner }}
+      TARGET_REPO: ${{ vars.GH_PAGES_INDEX_REPO }}
+    steps:
+      - name: Validate required configuration
+        run: |
+          if [ -z "$TARGET_REPO" ]; then
+            echo "Repository variable GH_PAGES_INDEX_REPO is required."
+            echo "Example value: your-username/your-username.github.io"
+            exit 1
+          fi
+
+      - name: Checkout automation repository
+        uses: actions/checkout@v4
+
+      - name: Generate README index content
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "Secret GH_PAGES_TOKEN is required."
+            exit 1
+          fi
+
+          mkdir -p generated
+          bash scripts/generate-pages-readme.sh "$OWNER" generated/README.md
+
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ vars.GH_PAGES_INDEX_REPO }}
+          token: ${{ secrets.GH_PAGES_TOKEN }}
+          path: target-repo
+
+      - name: Update README and push
+        run: |
+          cp generated/README.md target-repo/README.md
+          cd target-repo
+
+          if git diff --quiet -- README.md; then
+            echo "README.md is already up to date."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Update GitHub Pages index"
+          git push

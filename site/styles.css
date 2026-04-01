@@ -80,6 +80,8 @@ body {
   border-radius: 14px;
   padding: 1rem;
   box-shadow: var(--shadow);
+  display: grid;
+  grid-template-rows: auto 1fr 1.5rem;
 }
 
 .card h2 {

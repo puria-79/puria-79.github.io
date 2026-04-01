@@ -81,7 +81,7 @@ body {
   padding: 1rem;
   box-shadow: var(--shadow);
   display: grid;
-  grid-template-rows: auto 1fr 1.5rem;
+  grid-template-rows: auto 1fr auto;
 }
 
 .card h2 {

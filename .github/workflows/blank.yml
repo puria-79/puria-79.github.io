@@ -26,7 +26,7 @@ jobs:
       - name: Checkout automation repository
         uses: actions/checkout@v4
 
-      - name: Generate README index content
+      - name: Generate site data
         env:
           GH_TOKEN: ${{ secrets.GH_PAGES_TOKEN }}
         run: |
@@ -36,7 +36,7 @@ jobs:
           fi
 
           mkdir -p generated
-          bash scripts/generate-pages-readme.sh "$OWNER" generated/README.md
+          bash scripts/generate-pages-data.sh "$OWNER" generated/repos.json
 
       - name: Checkout target repository
         uses: actions/checkout@v4
@@ -45,18 +45,22 @@ jobs:
           token: ${{ secrets.GH_PAGES_TOKEN }}
           path: target-repo
 
-      - name: Update README and push
+      - name: Update site files and push
         run: |
-          cp generated/README.md target-repo/README.md
+          mkdir -p target-repo/pages-index/data
+          cp site/index.html target-repo/pages-index/index.html
+          cp site/styles.css target-repo/pages-index/styles.css
+          cp site/app.js target-repo/pages-index/app.js
+          cp generated/repos.json target-repo/pages-index/data/repos.json
           cd target-repo
 
-          if git diff --quiet -- README.md; then
-            echo "README.md is already up to date."
+          if git diff --quiet -- pages-index; then
+            echo "pages-index is already up to date."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md
-          git commit -m "Update GitHub Pages index"
+          git add pages-index
+          git commit -m "Update GitHub Pages index site"
           git push

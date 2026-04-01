@@ -55,7 +55,7 @@ jobs:
           cp generated/repos.json target-repo/data/repos.json
           cd target-repo
 
-          git add pages-index
+          git add index.html styles.css app.js data/repos.json
 
           if git diff --cached --quiet; then
             echo "pages-index is already up to date."

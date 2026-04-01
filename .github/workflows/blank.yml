@@ -48,9 +48,9 @@ jobs:
       - name: Update site files and push
         run: |
           mkdir -p target-repo/pages-index/data
-          cp site/index.html target-repo/pages-index/index.html
-          cp site/styles.css target-repo/pages-index/styles.css
-          cp site/app.js target-repo/pages-index/app.js
+          cp site/index.html target-repo/index.html
+          cp site/styles.css target-repo/styles.css
+          cp site/app.js target-repo/app.js
           cp generated/repos.json target-repo/pages-index/data/repos.json
           cd target-repo
 

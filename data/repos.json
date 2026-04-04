@@ -1,6 +1,6 @@
 {
   "owner": "puria-79",
-  "generatedAt": "2026-04-04T05:36:44Z",
+  "generatedAt": "2026-04-04T19:46:51Z",
   "repositories": [
     {
       "name": "Applereplica",
@@ -12,6 +12,12 @@
       "name": "Github-Random-Repository-Searcher",
       "repoUrl": "https://github.com/puria-79/Github-Random-Repository-Searcher",
       "pageUrl": "https://puria-79.github.io/Github-Random-Repository-Searcher/",
+      "description": ""
+    },
+    {
+      "name": "infinite-scroll",
+      "repoUrl": "https://github.com/puria-79/infinite-scroll",
+      "pageUrl": "https://puria-79.github.io/infinite-scroll/",
       "description": ""
     },
     {

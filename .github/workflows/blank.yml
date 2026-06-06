@@ -3,7 +3,7 @@ name: Update GitHub Pages Index
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 4 * * *"
+    - cron: "0 0 1 * *"
 
 permissions:
   contents: write
